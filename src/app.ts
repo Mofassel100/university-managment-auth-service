@@ -1,18 +1,14 @@
 import express, { Application, Request, Response } from 'express'
 import cors from 'cors'
-import userService from './app/modules/users/user.service'
+import userRouter from './app/modules/users/user.router'
 const app: Application = express()
 app.use(cors())
 // perser
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
+// application used
+app.use('/api/v1/users/', userRouter)
 app.get('/', async (req: Request, res: Response) => {
-  await userService.createUsers({
-    id: '00001',
-    password: 'mofassel@',
-    role: 'Mofassel',
-  })
   res.send('Working succefull start')
 })
 
