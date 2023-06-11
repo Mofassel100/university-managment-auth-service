@@ -10,9 +10,7 @@ const createUser: RequestHandler = async (req, res, next) => {
       message: `user created successfull`,
       data: result,
     })
-    // if(){
-
-    // }
+    // dkk
   } catch (err) {
     // res.status(400).json({
     //   success: false,
