@@ -5,8 +5,9 @@ import { AcademicSemesterController } from './academicSemesterController';
 
 const router = express.Router();
 router.post(
-  '/academic-semester',
+  '/create-semester',
   validateRequest(academicSemesterValidation.createAcademicSemesterZodSchema),
   AcademicSemesterController.createAcademicsemester
 );
+router.get('/', AcademicSemesterController.geteAllSemesters);
 export const AcademicSemesterRouter = router;

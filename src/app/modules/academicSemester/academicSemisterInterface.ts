@@ -16,9 +16,12 @@ export type IAcademicSemesterZodTitle = 'Autumn' | 'Summer' | 'Fall';
 export type IAcademicSemesterZodCode = '01' | '02' | '03';
 export type IAcademicSemester = {
   title: IAcademicSemesterZodTitle;
-  year: number;
+  year: string;
   code: IAcademicSemesterZodCode;
   startMonth: IAcademicSemesterZodMonth;
   endMonth: IAcademicSemesterZodMonth;
 };
 export type AcademicSemesterModel = Model<IAcademicSemester>;
+export type IAcademicSemesterFilters = {
+  searchTerm?: string;
+};
