@@ -52,8 +52,49 @@ const geteAllSemesters = catchAsync(
     next();
   }
 );
+const getSigleSemester = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    const result = await AcademicSemesterService.getSingleSemester(id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Pagination retrieved succefull',
+      data: result,
+    });
 
+    next();
+  }
+);
+const UpdateSemester = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const UpdateData = req.body;
+  const result = await AcademicSemesterService.UpdateSemster(id, UpdateData);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Pagination retrieved succefull',
+    data: result,
+  });
+});
+const DeleteSigleSemester = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    const result = await AcademicSemesterService.DeleteSingleSemester(id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester Delete succefull',
+      data: result,
+    });
+
+    next();
+  }
+);
 export const AcademicSemesterController = {
   createAcademicsemester,
   geteAllSemesters,
+  getSigleSemester,
+  UpdateSemester,
+  DeleteSigleSemester,
 };

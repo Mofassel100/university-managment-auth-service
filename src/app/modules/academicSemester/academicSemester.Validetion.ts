@@ -22,6 +22,44 @@ const createAcademicSemesterZodSchema = z.object({
     }),
   }),
 });
+const UpdateAcademicSemesterZodSchema = z
+  .object({
+    body: z.object({
+      title: z
+        .enum([...academicSemesteZodTitle] as [string, ...string[]], {
+          required_error: 'title is required',
+        })
+        .optional(),
+      year: z
+        .string({
+          required_error: 'Year is required',
+        })
+        .optional(),
+      code: z
+        .enum([...academictSemesterZodCode] as [string, ...string[]])
+        .optional(),
+      startMonth: z
+        .enum([...academicSemesterMonth] as [string, ...string[]], {
+          required_error: 'startMonth is Required',
+        })
+        .optional(),
+      endMonth: z
+        .enum([...academicSemesterMonth] as [string, ...string[]], {
+          required_error: 'endMonth is required',
+        })
+        .optional(),
+    }),
+  })
+  .refine(
+    data =>
+      (data.body.title && data.body.code) ||
+      (!data.body.title && !data.body.code),
+    {
+      message: 'Either both totle and code should be rpovide or neithre',
+    }
+  );
+
 export const academicSemesterValidation = {
   createAcademicSemesterZodSchema,
+  UpdateAcademicSemesterZodSchema,
 };
