@@ -5,5 +5,5 @@ export default {
   env: process.env.NODE_ENV,
   port: process.env.PORT,
   database_url: process.env.DATABASE_URL,
-  defualt_user_pass: process.env.DEFUALD_USER_PASS,
+  defualt_student_pass: process.env.DEFUALD_STUDENT_PASS,
 };
