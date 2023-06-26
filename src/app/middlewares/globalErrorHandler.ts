@@ -6,16 +6,17 @@ import handelCastError from '../../errors/handelCastError';
 import handelZodError from '../../errors/handelZodError';
 import handleValidationError from '../../errors/handleValidationError';
 import { IGenericErrorMessage } from '../../interfaces/error';
+import { errorlogger } from '../../shared/logger';
 
 const globalErrorHandler: ErrorRequestHandler = (
   error,
   req: Request,
   res: Response
 ) => {
-  // config.env === "development" ? console.log(`globalEroorHandler`,error) : errorlogger.error("dkfdfk",error)
-  // ? console.log(`globalErrorHandler ~~`, { error })
-  // : errorlogger.error(` globalErrorHandler ~~`, error)
-
+  // eslint-disable-next-line no-unused-expressions
+  config.env === 'development'
+    ? console.log(`🐱‍🏍 globalErrorHandler ~~`, { error })
+    : errorlogger.error(`🐱‍🏍 globalErrorHandler ~~`, error);
   let statusCode = 500;
   let message = 'Something went wrong !';
   let errorMessages: IGenericErrorMessage[] = [];

@@ -26,13 +26,14 @@ export const StudentSchema = new Schema<IStudent, StudentModel>(
       },
       required: true,
     },
+    dateOfBirth: {
+      type: String,
+    },
     gender: {
       type: String,
       enum: gender,
     },
-    dateOfBirth: {
-      type: String,
-    },
+
     email: {
       type: String,
       unique: true,
@@ -141,4 +142,4 @@ export const StudentSchema = new Schema<IStudent, StudentModel>(
   }
 );
 
-export const Student = model<IStudent, StudentModel>('Student', StudentSchema);
+export const Student = model<IStudent, StudentModel>('student', StudentSchema);

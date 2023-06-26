@@ -53,6 +53,7 @@ const getAllFaculty = async (
   const whereCondition =
     andConditions.length > 0 ? { $and: andConditions } : {};
   const result = await AcademicFaculty.find(whereCondition)
+    .populate('academicFaculty')
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);

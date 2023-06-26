@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express, { Application, NextFunction, Request, Response } from 'express';
+import express, { Application, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import modulesRouters from './app/routes';
@@ -17,7 +17,7 @@ app.use('/api/v1', modulesRouters);
 // })
 app.use(globalErrorHandler);
 // handle not found
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, res: Response) => {
   res.status(httpStatus.NOT_FOUND).json({
     success: false,
     message: 'Not found ',
@@ -28,14 +28,14 @@ app.use((req: Request, res: Response, next: NextFunction) => {
       },
     ],
   });
-  next();
 });
-// const academiSemester = {
-//   code: '01',
+// const academisemester = {
 //   year: '2025',
+//   code: '01',
 // };
+
 // const datasss = async () => {
-//   const datas = await generateStuentId(academiSemester);
+//   const datas = await generateStudentId(academisemester);
 //   console.log(datas);
 // };
 // datasss();

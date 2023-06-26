@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { IUser, UserModel } from './user.interface';
-const userSchema = new Schema<IUser>(
+const UserSchema = new Schema<IUser>(
   {
     id: {
       type: String,
@@ -15,18 +15,28 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
+    // _needsPasswordChange: {
+    //   type: Boolean,
+    //   default: true,
+    // },
+    // get needsPasswordChange() {
+    //   return this._needsPasswordChange;
+    // },
+    // set needsPasswordChange(value) {
+    //   this._needsPasswordChange = value;
+    // },
     student: {
       type: Schema.Types.ObjectId,
-      ref: 'Student',
+      ref: 'student',
     },
     // faculty: {
     //   type: Schema.Types.ObjectId,
     //   ref: 'Faculty',
     // },
-    // admin: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Admin',
-    // },
+    //   admin: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Admin',
+    //   },
   },
   {
     timestamps: true,
@@ -35,4 +45,33 @@ const userSchema = new Schema<IUser>(
     },
   }
 );
-export const User = model<IUser, UserModel>('user', userSchema);
+export const User = model<IUser, UserModel>('user', UserSchema);
+// UserSchema.statics.isUserExist = async function (
+//   id: string
+// ): Promise<Pick<
+//   IUser,
+//   'id' | 'password' | 'role' | 'needsPasswordChange'
+// > | null> {
+//   return await User.findOne(
+//     { id },
+//     { id: 1, password: 1, role: 1, needsPasswordChange: 1 }
+//   );
+// };
+
+// UserSchema.statics.isPasswordMatched = async function (
+//   givenPassword: string,
+//   savedPassword: string
+// ): Promise<boolean> {
+//   return await bcrypt.compare(givenPassword, savedPassword);
+// };
+
+// User.create() / user.save()
+// UserSchema.pre('save', async function (next) {
+//   // hashing user password
+//   //   const user = this;
+//   //   user.password = await bcrypt.hash(
+//   //     user.password,
+//   //     Number(config.bycrypt_salt_rounds)
+//   //   );
+//   next();
+// });

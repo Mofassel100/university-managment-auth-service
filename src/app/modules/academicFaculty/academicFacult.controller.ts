@@ -4,6 +4,7 @@ import { paginationFiles } from '../../../constants/paganition';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
+import { IAcademicFaculty } from './academicFacult.Interface';
 import { AcademicFacultyService } from './academicFacult.Service';
 import { academicFacultyFilteringTermFiles } from './academicFacult.constant';
 
@@ -13,18 +14,12 @@ const createAcademicFaculty = catchAsync(
     const result = await AcademicFacultyService.createFaculty(
       academicFacultyData
     );
-    sendResponse(res, {
+    sendResponse<IAcademicFaculty>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'AcademicFaculty Data create Success Full',
       data: result,
     });
-
-    // res.status(200).json({
-    //   success: true,
-    //   message: `Academic Semester create successfull`,
-    //   data: result,
-    // });
   }
 );
 const geteAllFaculty = catchAsync(async (req: Request, res: Response) => {
@@ -34,7 +29,7 @@ const geteAllFaculty = catchAsync(async (req: Request, res: Response) => {
     filterss,
     paginationOptions
   );
-  sendResponse(res, {
+  sendResponse<IAcademicFaculty[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Pagination retrieved succefull',
@@ -46,7 +41,7 @@ const getSigleFaculty = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     const result = await AcademicFacultyService.getSingleFaculty(id);
-    sendResponse(res, {
+    sendResponse<IAcademicFaculty>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Pagination retrieved succefull',
@@ -60,7 +55,7 @@ const UpdateFaculty = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const UpdateData = req.body;
   const result = await AcademicFacultyService.UpdateFaculty(id, UpdateData);
-  sendResponse(res, {
+  sendResponse<IAcademicFaculty>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Pagination retrieved succefull',
@@ -71,7 +66,7 @@ const DeleteSigleFaculty = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     const result = await AcademicFacultyService.DeleteSingleFaculty(id);
-    sendResponse(res, {
+    sendResponse<IAcademicFaculty>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Semester Delete succefull',

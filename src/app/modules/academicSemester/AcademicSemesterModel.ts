@@ -2,20 +2,17 @@ import status from 'http-status';
 import { Schema, model } from 'mongoose';
 import ApiError from '../../../errors/ApiError';
 import {
-  academicSemesteZodTitle,
+  academicSemesteTitle,
   academicSemesterMonth,
-  academictSemesterZodCode,
+  academictSemesterCode,
 } from './academicSemester.constant';
-import {
-  AcademicSemesterModel,
-  IAcademicSemester,
-} from './academicSemisterInterface';
+import { IAcademicSemester } from './academicSemisterInterface';
 const academicSemesteSchema = new Schema<IAcademicSemester>(
   {
     title: {
       type: String,
       required: true,
-      enum: academicSemesteZodTitle,
+      enum: academicSemesteTitle,
     },
     year: {
       type: String,
@@ -24,7 +21,7 @@ const academicSemesteSchema = new Schema<IAcademicSemester>(
     code: {
       type: String,
       required: true,
-      enum: academictSemesterZodCode,
+      enum: academictSemesterCode,
     },
     startMonth: {
       type: String,
@@ -54,8 +51,7 @@ academicSemesteSchema.pre('save', async function (next) {
   }
   next();
 });
-
-export const AcademicSemester = model<IAcademicSemester, AcademicSemesterModel>(
-  'academic-semester',
+export const AcademicSemester = model<IAcademicSemester>(
+  'AcademicSemester',
   academicSemesteSchema
 );

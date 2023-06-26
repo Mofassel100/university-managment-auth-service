@@ -6,13 +6,14 @@ import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
 import { AcademicSemesterService } from './academicSemester.Service';
 import { academicSemeterFilteringTermFiles } from './academicSemester.constant';
+import { IAcademicSemester } from './academicSemisterInterface';
 const createAcademicsemester = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { ...academicSemesteData } = req.body;
     const result = await AcademicSemesterService.createSemester(
       academicSemesteData
     );
-    sendResponse(res, {
+    sendResponse<IAcademicSemester>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'AcademicSemester Data create Success Full',
@@ -27,36 +28,32 @@ const createAcademicsemester = catchAsync(
     // });
   }
 );
-const geteAllSemesters = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    // const paginationOptions = {
-    //   page: Number(req.query.page),
-    //   limit: Number(req.query.limit),
-    //   sortBy: req.query.sortBy,
-    //   sortOrder: req.query.sortOrder,
-    // };
-    const filterss = pick(req.query, academicSemeterFilteringTermFiles);
-    const paginationOptions = pick(req.query, paginationFiles);
-    const result = await AcademicSemesterService.getAllSemsters(
-      filterss,
-      paginationOptions
-    );
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'Pagination retrieved succefull',
-      meta: result.meta,
-      data: result.data,
-    });
-
-    next();
-  }
-);
+const geteAllSemesters = catchAsync(async (req: Request, res: Response) => {
+  // const paginationOptions = {
+  //   page: Number(req.query.page),
+  //   limit: Number(req.query.limit),
+  //   sortBy: req.query.sortBy,
+  //   sortOrder: req.query.sortOrder,
+  // };
+  const filterss = pick(req.query, academicSemeterFilteringTermFiles);
+  const paginationOptions = pick(req.query, paginationFiles);
+  const result = await AcademicSemesterService.getAllSemsters(
+    filterss,
+    paginationOptions
+  );
+  sendResponse<IAcademicSemester[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Pagination retrieved succefull',
+    meta: result.meta,
+    data: result.data,
+  });
+});
 const getSigleSemester = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     const result = await AcademicSemesterService.getSingleSemester(id);
-    sendResponse(res, {
+    sendResponse<IAcademicSemester>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Pagination retrieved succefull',
@@ -70,7 +67,7 @@ const UpdateSemester = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const UpdateData = req.body;
   const result = await AcademicSemesterService.UpdateSemster(id, UpdateData);
-  sendResponse(res, {
+  sendResponse<IAcademicSemester>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Pagination retrieved succefull',
@@ -81,7 +78,7 @@ const DeleteSigleSemester = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     const result = await AcademicSemesterService.DeleteSingleSemester(id);
-    sendResponse(res, {
+    sendResponse<IAcademicSemester>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Semester Delete succefull',

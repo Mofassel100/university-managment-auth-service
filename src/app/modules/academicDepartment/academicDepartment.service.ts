@@ -8,14 +8,6 @@ import {
   IAcademicDepartmentFilters,
 } from './academicDepartment.interface';
 import { AcademicDepartment } from './academicDepartment.model';
-const createDepartment = async (
-  payload: IAcademicDepartment
-): Promise<IAcademicDepartment> => {
-  const result = (await AcademicDepartment.create(payload)).populate(
-    'academicFaculty'
-  );
-  return result;
-};
 const getAllDepartments = async (
   filters: IAcademicDepartmentFilters,
   paginationOptions: pagination
@@ -70,6 +62,14 @@ const getAllDepartments = async (
     },
     data: result,
   };
+};
+const createDepartment = async (
+  payload: IAcademicDepartment
+): Promise<IAcademicDepartment | null> => {
+  const result = (await AcademicDepartment.create(payload)).populate(
+    'academicFaculty'
+  );
+  return result;
 };
 
 const getSingleDepartment = async (
