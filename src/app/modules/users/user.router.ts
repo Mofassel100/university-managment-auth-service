@@ -16,6 +16,11 @@ router.post(
   validateRequest(UserValidation.createStudentZodSchema),
   UserController.createStudent
 );
+router.post(
+  '/create-admin',
+  validateRequest(UserValidation.createAdminZodSchema),
+  UserController.createAdmin
+);
 // router.get(
 //   '/',
 //   validateRequest(UserValidation.createUserZodSchema),

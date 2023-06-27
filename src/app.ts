@@ -30,14 +30,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   });
   next();
 });
-// const academisemester = {
-//   year: '2025',
-//   code: '01',
-// };
 
-// const datasss = async () => {
-//   const datas = await generateStudentId(academisemester);
+// const test = async () => {
+//   const datas = await generateAdminId();
 //   console.log(datas);
 // };
-// datasss();
+// test();
 export default app;

@@ -15,7 +15,8 @@ const FacultyUpdateZodSchema = z.object({
     emergencyContactNo: z.string().optional(),
     presentAddress: z.string().optional(),
     permanentAddress: z.string().optional(),
-    department: z.string().optional(),
+    academicFaculty: z.string().optional(),
+    academicDepartment: z.string().optional(),
     designation: z.string().optional(),
   }),
 });

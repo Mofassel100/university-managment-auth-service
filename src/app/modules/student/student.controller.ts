@@ -11,12 +11,10 @@ import { StudentService } from './student.service';
 const getAllStudents = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, studentFilterableFields);
   const paginationOptions = pick(req.query, paginationFiles);
-
   const result = await StudentService.getAllStudents(
     filters,
     paginationOptions
   );
-
   sendResponse<IStudent[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -28,9 +26,7 @@ const getAllStudents = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-
   const result = await StudentService.getSingleStudent(id);
-
   sendResponse<IStudent>(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -42,9 +38,7 @@ const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
 const updateStudent = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;
-
   const result = await StudentService.updateStudent(id, updatedData);
-
   sendResponse<IStudent>(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -54,9 +48,7 @@ const updateStudent = catchAsync(async (req: Request, res: Response) => {
 });
 const deleteStudent = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-
   const result = await StudentService.deleteStudent(id);
-
   sendResponse<IStudent>(res, {
     statusCode: httpStatus.OK,
     success: true,
