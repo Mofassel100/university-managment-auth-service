@@ -29,10 +29,10 @@ const UserSchema = new Schema<IUser>(
       type: Schema.Types.ObjectId,
       ref: 'student',
     },
-    // faculty: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Faculty',
-    // },
+    faculty: {
+      type: Schema.Types.ObjectId,
+      ref: 'faculty',
+    },
     //   admin: {
     //     type: Schema.Types.ObjectId,
     //     ref: 'Admin',
