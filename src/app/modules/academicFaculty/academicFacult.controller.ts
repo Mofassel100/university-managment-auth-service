@@ -10,7 +10,7 @@ import { academicFacultyFilteringTermFiles } from './academicFacult.constant';
 
 const createAcademicFaculty = catchAsync(
   async (req: Request, res: Response) => {
-    const academicFacultyData = req.body;
+    const { ...academicFacultyData } = req.body;
     const result = await AcademicFacultyService.createFaculty(
       academicFacultyData
     );
