@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
+import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
+import config from '../../../config';
 import { IUser, UserModel } from './user.interface';
-const UserSchema = new Schema<IUser>(
+const UserSchema = new Schema<IUser, UserModel>(
   {
     id: {
       type: String,
@@ -15,10 +18,10 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
-    // _needsPasswordChange: {
-    //   type: Boolean,
-    //   default: true,
-    // },
+    needsPasswordChange: {
+      type: Boolean,
+      default: true,
+    },
     // get needsPasswordChange() {
     //   return this._needsPasswordChange;
     // },
@@ -45,6 +48,45 @@ const UserSchema = new Schema<IUser>(
     },
   }
 );
+// UserSchema.methods.isUserExist = async function (
+//   id: string
+// ): Promise<Partial<IUser> | null> {
+//   return await User.findOne(
+//     { id },
+//     { id: 1, password: 1, needsPasswordChange: 1 }
+//   );
+// };
+// UserSchema.methods.isPasswordMatched = async function (
+//   givenPassword: string,
+//   savedPassword: string
+// ): Promise<boolean> {
+//   return await bcrypt.compare(givenPassword, savedPassword);
+// };
+UserSchema.statics.isUserExist = async function (
+  id: string
+): Promise<Pick<
+  IUser,
+  'id' | 'password' | 'role' | 'needsPasswordChange'
+> | null> {
+  return await User.findOne(
+    { id },
+    { id: 1, role: 1, password: 1, needsPasswordChange: 1 }
+  );
+};
+UserSchema.statics.isPasswordMatched = async function (
+  givenPassword: string,
+  savedPassword: string
+): Promise<boolean> {
+  return await bcrypt.compare(givenPassword, savedPassword);
+};
+UserSchema.pre('save', async function (next) {
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds)
+  );
+  next();
+});
 export const User = model<IUser, UserModel>('user', UserSchema);
 // UserSchema.statics.isUserExist = async function (
 //   id: string

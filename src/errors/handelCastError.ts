@@ -12,7 +12,7 @@ const handelCastError = (error: mongoose.Error.CastError) => {
   const statusCode = 400;
   return {
     statusCode,
-    message: 'Validation Error',
+    message: 'CAst Error',
     errorMessages: errors,
   };
 };
