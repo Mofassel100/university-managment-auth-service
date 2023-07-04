@@ -9,6 +9,11 @@ router.post(
   validateRequest(AuthValidation.createZodSchema),
   AuthController.loginUser
 );
+router.post(
+  '/refresh-token',
+  validateRequest(AuthValidation.refreshTokenZodSchema),
+  AuthController.refreshToken
+);
 // router.delete('/:id', StudentController.deleteStudent);
 // router.get('/', StudentController.getAllStudents);
 // router.patch(

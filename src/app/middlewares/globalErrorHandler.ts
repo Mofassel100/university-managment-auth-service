@@ -1,9 +1,13 @@
-import { ErrorRequestHandler, Request, Response } from 'express';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
 import config from '../../config';
 import ApiError from '../../errors/ApiError';
-import handelCastError from '../../errors/handelCastError';
-import handelZodError from '../../errors/handelZodError';
+import handleCastError from '../../errors/handelCastError';
+import handleZodError from '../../errors/handelZodError';
 import handleValidationError from '../../errors/handleValidationError';
 import { IGenericErrorMessage } from '../../interfaces/error';
 import { errorlogger } from '../../shared/logger';
@@ -11,12 +15,13 @@ import { errorlogger } from '../../shared/logger';
 const globalErrorHandler: ErrorRequestHandler = (
   error,
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
-  // eslint-disable-next-line no-unused-expressions
   config.env === 'development'
     ? console.log(`🐱‍🏍 globalErrorHandler ~~`, { error })
     : errorlogger.error(`🐱‍🏍 globalErrorHandler ~~`, error);
+
   let statusCode = 500;
   let message = 'Something went wrong !';
   let errorMessages: IGenericErrorMessage[] = [];
@@ -27,12 +32,12 @@ const globalErrorHandler: ErrorRequestHandler = (
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
   } else if (error instanceof ZodError) {
-    const simplifiedError = handelZodError(error);
+    const simplifiedError = handleZodError(error);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
   } else if (error?.name === 'CastError') {
-    const simplifiedError = handelCastError(error);
+    const simplifiedError = handleCastError(error);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;

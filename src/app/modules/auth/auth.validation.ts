@@ -10,14 +10,14 @@ const createZodSchema = z.object({
     }),
   }),
 });
-// const UpdateAcademicFacultyZodSchema = z.object({
-//   body: z.object({
-//     title: z.string({
-//       required_error: 'title is requird',
-//     }),
-//   }),
-// });
-
+const refreshTokenZodSchema = z.object({
+  cookies: z.object({
+    refreshToken: z.string({
+      required_error: 'Refresh Token is requird',
+    }),
+  }),
+});
 export const AuthValidation = {
   createZodSchema,
+  refreshTokenZodSchema,
 };

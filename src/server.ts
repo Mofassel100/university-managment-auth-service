@@ -1,7 +1,7 @@
+import { Server } from 'http';
 import mongoose from 'mongoose';
 import app from './app';
 import config from './config';
-import { Server } from 'http';
 import { errorlogger, logger } from './shared/logger';
 process.on('uncaughtException', error => {
   errorlogger.error(error);
@@ -14,6 +14,7 @@ async function boostrap() {
     logger.info(`Database is connected successfully`);
     server = app.listen(config.port, () => {
       logger.info(`Example app listening on port ${config.port}`);
+      // console.log(`Application  listening on port ${config.port}`);
     });
   } catch (err) {
     errorlogger.error(`failt to connect database`, err);

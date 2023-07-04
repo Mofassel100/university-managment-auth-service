@@ -23,6 +23,8 @@ const createAcademicFaculty = catchAsync(
   }
 );
 const geteAllFaculty = catchAsync(async (req: Request, res: Response) => {
+  console.log(req.headers.authorization);
+  console.log(req.user);
   const filterss = pick(req.query, academicFacultyFilteringTermFiles);
   const paginationOptions = pick(req.query, paginationFiles);
   const result = await AcademicFacultyService.getAllFaculty(

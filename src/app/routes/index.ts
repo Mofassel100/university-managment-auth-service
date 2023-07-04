@@ -8,7 +8,7 @@ import { FacultyRouter } from '../modules/faculty/faculty.routes';
 import { ManagementDepartmentRoutes } from '../modules/managementDepartment/managementDepartment.routes';
 import { StudentRoutes } from '../modules/student/student.router';
 import { UserRouter } from '../modules/users/user.router';
-const router = express.Router();
+const routers = express.Router();
 const modulesRoutes = [
   {
     path: '/users/',
@@ -47,6 +47,6 @@ const modulesRoutes = [
     route: AuthRoutes,
   },
 ];
-modulesRoutes.forEach(route => router.use(route.path, route.route));
+modulesRoutes.forEach(route => routers.use(route.path, route.route));
 
-export default router;
+export default routers;

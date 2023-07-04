@@ -1,9 +1,14 @@
 import httpStatus from 'http-status';
+import { Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpars/jwtHelpers';
 import { User } from '../users/user.model';
-import { ILoginUserResponse, lLoginUser } from './auth.interface';
+import {
+  ILoginUserResponse,
+  IRefreshTokenResponse,
+  lLoginUser,
+} from './auth.interface';
 
 const loginUser = async (payload: lLoginUser): Promise<ILoginUserResponse> => {
   const { id, password } = payload;
@@ -44,6 +49,35 @@ const loginUser = async (payload: lLoginUser): Promise<ILoginUserResponse> => {
     needsPasswordChange,
   };
 };
+const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
+  let verifyToken = null;
+  try {
+    verifyToken = jwtHelpers.VerifyToken(
+      token,
+      config.jwt.jwt_refresh_secret as Secret
+    );
+  } catch (err) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Inviled token');
+    // err
+  }
+  const { userId } = verifyToken;
+  // tumi delete hye gseo kinty tumar refresh token ase
+  // cheking deleted user's refresh token
+  const isUserExist = await User.isUserExist(userId);
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
+  }
+  // generate new token
+  const newAccessToken = jwtHelpers.createToken(
+    { id: isUserExist.id, role: isUserExist.role },
+    config.jwt.secret as Secret,
+    config.jwt.jwt_expires_in as string
+  );
+  return {
+    accessToken: newAccessToken,
+  };
+};
 export const AuthService = {
   loginUser,
+  refreshToken,
 };
