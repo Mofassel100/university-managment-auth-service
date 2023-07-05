@@ -17,10 +17,15 @@ const UserSchema = new Schema<IUser, UserModel>(
     password: {
       type: String,
       required: true,
+      select: 0,
     },
     needsPasswordChange: {
       type: Boolean,
       default: true,
+    },
+
+    passwordChangedAt: {
+      type: Date,
     },
     // get needsPasswordChange() {
     //   return this._needsPasswordChange;
@@ -48,20 +53,6 @@ const UserSchema = new Schema<IUser, UserModel>(
     },
   }
 );
-// UserSchema.methods.isUserExist = async function (
-//   id: string
-// ): Promise<Partial<IUser> | null> {
-//   return await User.findOne(
-//     { id },
-//     { id: 1, password: 1, needsPasswordChange: 1 }
-//   );
-// };
-// UserSchema.methods.isPasswordMatched = async function (
-//   givenPassword: string,
-//   savedPassword: string
-// ): Promise<boolean> {
-//   return await bcrypt.compare(givenPassword, savedPassword);
-// };
 UserSchema.statics.isUserExist = async function (
   id: string
 ): Promise<Pick<
@@ -85,6 +76,10 @@ UserSchema.pre('save', async function (next) {
     user.password,
     Number(config.bcrypt_salt_rounds)
   );
+
+  if (!user.needsPasswordChange) {
+    this.passwordChangedAt = new Date();
+  }
   next();
 });
 export const User = model<IUser, UserModel>('user', UserSchema);
