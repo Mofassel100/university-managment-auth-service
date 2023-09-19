@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import app from './app';
 import config from './config';
 import { errorlogger, logger } from './shared/logger';
+import { RedisClinet } from './shared/redis';
 process.on('uncaughtException', error => {
   errorlogger.error(error);
   process.exit(1);
@@ -10,6 +11,7 @@ process.on('uncaughtException', error => {
 let server: Server;
 async function boostrap() {
   try {
+    await RedisClinet.connect();
     await mongoose.connect(config.database_url as string);
     logger.info(`Database is connected successfully`);
     server = app.listen(config.port, () => {
