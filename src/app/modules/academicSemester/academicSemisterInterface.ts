@@ -16,12 +16,21 @@ export type IAcademicSemesterTitle = 'Autumn' | 'Summer' | 'Fall';
 export type IAcademicSemesterCode = '01' | '02' | '03';
 export type IAcademicSemester = {
   title: IAcademicSemesterTitle;
-  year: string;
+  year: number;
   code: IAcademicSemesterCode;
   startMonth: IAcademicSemesterMonth;
   endMonth: IAcademicSemesterMonth;
+  syncId: string;
 };
 export type AcademicSemesterModel = Model<IAcademicSemester>;
 export type IAcademicSemesterFilters = {
   searchTerm?: string;
+};
+export type IAcademicSemesterCreateEvents = {
+  year: number;
+  title: string;
+  code: string;
+  startMonth: string;
+  endMonth: string;
+  id: string;
 };
