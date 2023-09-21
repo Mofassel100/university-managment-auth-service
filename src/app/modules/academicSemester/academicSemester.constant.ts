@@ -44,3 +44,7 @@ export const academicSemeterFilteringTermFiles = [
 ];
 export const EVENT_ACADEMIC_SEMESTER_CREATED = 'academic-semester.created';
 export const EVENT_ACADEMIC_SEMESTER_UPDATED = 'academic-semester.UPDATED';
+export const EVENT_ACADEMIC_SEMESTER_GET_ALL = 'academic-semester.get-all';
+export const EVENT_ACADEMIC_SEMESTER_GET_SINGLE =
+  'academic-semester.get-single';
+export const EVENT_ACADEMIC_SEMESTER_GET_DELETED = 'academic-semester.deleted';

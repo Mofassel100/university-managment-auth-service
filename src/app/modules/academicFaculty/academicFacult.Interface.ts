@@ -10,3 +10,8 @@ export type AcademicFacultyModel = Model<
 export type IAcademicFacultyFilters = {
   searchTerm?: string;
 };
+
+export type IAcademicFacultyCreateEvents = {
+  title: string;
+  id: string;
+};

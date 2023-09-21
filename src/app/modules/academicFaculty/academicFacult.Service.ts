@@ -5,6 +5,7 @@ import { pagination } from '../../../interfaces/paginationOptions';
 import { AcademicSemester } from '../academicSemester/AcademicSemesterModel';
 import {
   IAcademicFaculty,
+  IAcademicFacultyCreateEvents,
   IAcademicFacultyFilters,
 } from './academicFacult.Interface';
 import { AcademicFaculty } from './academicFacult.Model';
@@ -85,11 +86,58 @@ const DeleteSingleFaculty = async (
   const result = await AcademicFaculty.findByIdAndDelete(id);
   return result;
 };
-
+const createFacultyEvents = async (
+  e: IAcademicFacultyCreateEvents
+): Promise<void> => {
+  await AcademicFaculty.create({
+    title: e.title,
+    syncId: e.id,
+  });
+};
+const UpdateOneIntoDBEvents = async (
+  e: Partial<IAcademicFacultyCreateEvents>
+): Promise<void> => {
+  await AcademicFaculty.findOneAndUpdate(
+    {
+      syncId: e.id,
+    },
+    {
+      $set: {
+        title: e.title,
+      },
+    }
+  );
+};
+const DeletedOneIntoDBEvents = async (
+  e: Partial<IAcademicFacultyCreateEvents>
+): Promise<void> => {
+  await AcademicFaculty.findOneAndDelete({
+    syncId: e.id,
+  });
+};
+const GetSingleOneIntoDBEvents = async (
+  e: Partial<IAcademicFacultyCreateEvents>
+): Promise<void> => {
+  await AcademicFaculty.findOne({
+    syncId: e.id,
+  });
+};
+const GetAllOneIntoDBEvents = async (
+  e: Partial<IAcademicFacultyCreateEvents>
+): Promise<void> => {
+  await AcademicFaculty.findOne({
+    syncId: e.id,
+  });
+};
 export const AcademicFacultyService = {
   DeleteSingleFaculty,
   createFaculty,
   UpdateFaculty,
   getAllFaculty,
   getSingleFaculty,
+  createFacultyEvents,
+  UpdateOneIntoDBEvents,
+  GetAllOneIntoDBEvents,
+  GetSingleOneIntoDBEvents,
+  DeletedOneIntoDBEvents,
 };

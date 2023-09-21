@@ -138,7 +138,7 @@ const createSemesterEvents = async (
   });
 };
 const UpdateOneIntoDBEvents = async (
-  e: IAcademicSemesterCreateEvents
+  e: Partial<IAcademicSemesterCreateEvents>
 ): Promise<void> => {
   await AcademicSemester.findOneAndUpdate(
     {
@@ -154,14 +154,27 @@ const UpdateOneIntoDBEvents = async (
       },
     }
   );
-  // await AcademicSemester.create({
-  //   year: e.year,
-  //   title: e.title,
-  //   code: e.code,
-  //   startMonth: e.startMonth,
-  //   endMonth: e.endMonth,
-  //   syncId: e.id,
-  // });
+};
+const DeletedOneIntoDBEvents = async (
+  e: Partial<IAcademicSemesterCreateEvents>
+): Promise<void> => {
+  await AcademicSemester.findOneAndDelete({
+    syncId: e.id,
+  });
+};
+const GetSingleOneIntoDBEvents = async (
+  e: Partial<IAcademicSemesterCreateEvents>
+): Promise<void> => {
+  await AcademicSemester.findOne({
+    syncId: e.id,
+  });
+};
+const GetAllOneIntoDBEvents = async (
+  e: Partial<IAcademicSemesterCreateEvents>
+): Promise<void> => {
+  await AcademicSemester.findOne({
+    syncId: e.id,
+  });
 };
 
 export const AcademicSemesterService = {
@@ -172,4 +185,7 @@ export const AcademicSemesterService = {
   DeleteSingleSemester,
   createSemesterEvents,
   UpdateOneIntoDBEvents,
+  DeletedOneIntoDBEvents,
+  GetSingleOneIntoDBEvents,
+  GetAllOneIntoDBEvents,
 };
