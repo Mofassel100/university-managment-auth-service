@@ -2,8 +2,12 @@ import { SortOrder } from 'mongoose';
 import { paginationHelper } from '../../../helpars/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { pagination } from '../../../interfaces/paginationOptions';
+import { AcademicFaculty } from '../academicFaculty/academicFacult.Model';
 import { academicDepartmentSearchableFields } from './academicDepartment.constant';
 import {
+  AcademicDepartmentCreatedEvent,
+  AcademicDepartmentDeletedEvent,
+  AcademicDepartmentUpdatedEvent,
   IAcademicDepartment,
   IAcademicDepartmentFilters,
 } from './academicDepartment.interface';
@@ -102,10 +106,69 @@ const deleteDepartment = async (
   return result;
 };
 
+// redis event
+const createDepartmentEvents = async (
+  e: AcademicDepartmentCreatedEvent
+): Promise<void> => {
+  const academicFaculty = await AcademicFaculty.findOne({
+    syncId: e.academicFacultyId,
+  });
+  const payload = {
+    title: e.title,
+    academicFaculty: academicFaculty?._id,
+    syncId: e.id,
+  };
+  await AcademicDepartment.create(payload);
+};
+const UpdateOneIntoDBEvents = async (
+  e: Partial<AcademicDepartmentUpdatedEvent>
+): Promise<void> => {
+  const academicFaculty = await AcademicFaculty.findOne({
+    syncId: e.academicFacultyId,
+  });
+  const payload = {
+    title: e.title,
+    academicFaculty: academicFaculty?._id,
+  };
+  await AcademicDepartment.findOneAndUpdate(
+    {
+      syncId: e.id,
+    },
+    {
+      $set: payload,
+    }
+  );
+};
+const DeletedOneIntoDBEvents = async (
+  e: Partial<AcademicDepartmentDeletedEvent>
+): Promise<void> => {
+  await AcademicDepartment.findOneAndDelete({
+    syncId: e.id,
+  });
+};
+const GetSingleOneIntoDBEvents = async (
+  e: Partial<AcademicDepartmentDeletedEvent>
+): Promise<void> => {
+  await AcademicDepartment.findOne({
+    syncId: e.id,
+  });
+};
+const GetAllOneIntoDBEvents = async (
+  e: Partial<AcademicDepartmentDeletedEvent>
+): Promise<void> => {
+  await AcademicDepartment.findOne({
+    syncId: e.id,
+  });
+};
 export const AcademicDepartmentService = {
   getAllDepartments,
   getSingleDepartment,
   updateDepartment,
   deleteDepartment,
   createDepartment,
+  createDepartmentEvents,
+  UpdateOneIntoDBEvents,
+  DeletedOneIntoDBEvents,
+  GetAllOneIntoDBEvents,
+  GetSingleOneIntoDBEvents,
 };
