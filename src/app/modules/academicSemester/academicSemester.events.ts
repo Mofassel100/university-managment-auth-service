@@ -12,7 +12,7 @@ const initAcademicSemesterEvents = async () => {
   RedisClinet.subscriber(EVENT_ACADEMIC_SEMESTER_CREATED, e => {
     const data = JSON.parse(e);
     AcademicSemesterService.createSemesterEvents(data);
-    console.log('create data :', data);
+    console.log('create semester data :', data);
   });
   RedisClinet.subscriber(EVENT_ACADEMIC_SEMESTER_UPDATED, e => {
     const data = JSON.parse(e);

@@ -1,4 +1,6 @@
+import httpStatus from 'http-status';
 import { SortOrder } from 'mongoose';
+import ApiError from '../../../errors/ApiError';
 import { paginationHelper } from '../../../helpars/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { pagination } from '../../../interfaces/paginationOptions';
@@ -113,6 +115,9 @@ const createDepartmentEvents = async (
   const academicFaculty = await AcademicFaculty.findOne({
     syncId: e.academicFacultyId,
   });
+  if (!academicFaculty) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'AcademicFaculty id not found');
+  }
   const payload = {
     title: e.title,
     academicFaculty: academicFaculty?._id,

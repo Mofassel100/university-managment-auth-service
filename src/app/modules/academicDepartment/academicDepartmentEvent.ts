@@ -6,21 +6,26 @@ import {
   EVENT_ACADEMIC_DEPARTMENT_GET_SINGLE,
   EVENT_ACADEMIC_DEPARTMENT_UPDATED,
 } from './academicDepartment.constant';
+import {
+  AcademicDepartmentCreatedEvent,
+  AcademicDepartmentDeletedEvent,
+  AcademicDepartmentUpdatedEvent,
+} from './academicDepartment.interface';
 import { AcademicDepartmentService } from './academicDepartment.service';
 
 const initAcademicDepartmentEvents = async () => {
   RedisClinet.subscriber(EVENT_ACADEMIC_DEPARTMENT_CREATED, e => {
-    const data = JSON.parse(e);
+    const data: AcademicDepartmentCreatedEvent = JSON.parse(e);
     AcademicDepartmentService.createDepartmentEvents(data);
     console.log('create Department data :', data);
   });
   RedisClinet.subscriber(EVENT_ACADEMIC_DEPARTMENT_UPDATED, e => {
-    const data = JSON.parse(e);
+    const data: AcademicDepartmentUpdatedEvent = JSON.parse(e);
     AcademicDepartmentService.UpdateOneIntoDBEvents(data);
     console.log('updated DEPARTMENT_ data : ', data);
   });
   RedisClinet.subscriber(EVENT_ACADEMIC_DEPARTMENT_GET_DELETED, e => {
-    const data = JSON.parse(e);
+    const data: AcademicDepartmentDeletedEvent = JSON.parse(e);
     AcademicDepartmentService.DeletedOneIntoDBEvents(data);
     console.log('Deleted DEPARTMENT data : ', data);
   });

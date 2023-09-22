@@ -1,4 +1,8 @@
-export const academicFacultyFilteringTermFiles = ['searchTerm', 'title'];
+export const academicFacultyFilteringTermFiles = [
+  'searchTerm',
+  'title',
+  'syncId',
+];
 export const academicFacultySeachTermFiles = ['title'];
 export const EVENT_ACADEMIC_FACULTY_CREATED = 'academic-faculty.created';
 export const EVENT_ACADEMIC_FACULTY_UPDATED = 'academic-facult.updated';

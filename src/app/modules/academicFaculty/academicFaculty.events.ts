@@ -1,4 +1,9 @@
 import { RedisClinet } from '../../../shared/redis';
+import {
+  AcademicFacultyCreatedEvent,
+  AcademicFacultyDeletedEvent,
+  AcademicFacultyUpdatedEvent,
+} from './academicFacult.Interface';
 import { AcademicFacultyService } from './academicFacult.Service';
 import {
   EVENT_ACADEMIC_FACULTY_CREATED,
@@ -10,17 +15,17 @@ import {
 
 const initAcademicFacultyEvents = async () => {
   RedisClinet.subscriber(EVENT_ACADEMIC_FACULTY_CREATED, e => {
-    const data = JSON.parse(e);
+    const data: AcademicFacultyCreatedEvent = JSON.parse(e);
     AcademicFacultyService.createFacultyEvents(data);
     console.log('create faculty data :', data);
   });
   RedisClinet.subscriber(EVENT_ACADEMIC_FACULTY_UPDATED, e => {
-    const data = JSON.parse(e);
+    const data: AcademicFacultyUpdatedEvent = JSON.parse(e);
     AcademicFacultyService.UpdateOneIntoDBEvents(data);
     console.log('updated faculty data : ', data);
   });
   RedisClinet.subscriber(EVENT_ACADEMIC_FACULTY_GET_DELETED, e => {
-    const data = JSON.parse(e);
+    const data: AcademicFacultyDeletedEvent = JSON.parse(e);
     AcademicFacultyService.DeletedOneIntoDBEvents(data);
     console.log('Deleted faculty data : ', data);
   });

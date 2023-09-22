@@ -4,6 +4,7 @@ import { IAcademicFaculty } from '../academicFaculty/academicFacult.Interface';
 export type IAcademicDepartment = {
   title: string;
   academicFaculty: Types.ObjectId | IAcademicFaculty;
+  syncId: string;
 };
 
 export type AcademicDepartmentModel = Model<
