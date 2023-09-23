@@ -2,11 +2,14 @@ import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import config from '../../../config/index';
 import ApiError from '../../../errors/ApiError';
+import { RedisClinet } from '../../../shared/redis';
 import { AcademicSemester } from '../academicSemester/AcademicSemesterModel';
 import { IAdmin } from '../admin/admin.interface';
 import { Admin } from '../admin/admin.model';
+import { EVENT_CREATED_FACULTY } from '../faculty/faculty.constant';
 import { IFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.modal';
+import { STUDENT_CREATED_EVENT } from '../student/student.constant';
 import { IStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
 import { IUser } from './user.interface';
@@ -73,6 +76,12 @@ const createStudent = async (
       ],
     });
   }
+  if (newUserAllData) {
+    RedisClinet.publish(
+      STUDENT_CREATED_EVENT,
+      JSON.stringify(newUserAllData.student)
+    );
+  }
   return newUserAllData;
 };
 const createFaculty = async (
@@ -124,6 +133,12 @@ const createFaculty = async (
         },
       ],
     });
+  }
+  if (newUserAllData) {
+    RedisClinet.publish(
+      EVENT_CREATED_FACULTY,
+      JSON.stringify(newUserAllData.faculty)
+    );
   }
   return newUserAllData;
 };

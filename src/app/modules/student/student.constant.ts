@@ -18,3 +18,4 @@ export const studentFilterableFields = [
   'contactNo',
   'emergencyContactNo',
 ];
+export const STUDENT_CREATED_EVENT = 'student.create';

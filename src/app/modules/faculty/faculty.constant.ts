@@ -18,3 +18,4 @@ export const FacultyFilterableFields = [
   'contactNo',
   'emergencyContactNo',
 ];
+export const EVENT_CREATED_FACULTY = 'created.faculty';
