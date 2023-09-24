@@ -9,7 +9,7 @@ router.delete('/:id', FacultyController.deleteFaculty);
 router.get('/', FacultyController.getAllFaculty);
 router.patch(
   '/:id',
-  validateRequest(FacultyUpdateValidation.FacultyUpdateZodSchema)
-  // UserController.UpdateFaculty
+  validateRequest(FacultyUpdateValidation.FacultyUpdateZodSchema),
+  FacultyController.updateFaculty
 );
 export const FacultyRouter = router;

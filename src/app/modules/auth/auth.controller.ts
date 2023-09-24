@@ -9,16 +9,15 @@ import { AuthService } from './auth.service';
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
   const result = await AuthService.loginUser(loginData);
-  const { refreshToken, ...others } = result;
+  const { refreshToken } = result;
   // set refresh token into cookie
   const cookieOptions = { secure: config.env === 'production', httpOnly: true };
   res.cookie('refreshToken', refreshToken, cookieOptions);
-
   sendResponse<ILoginUserResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User loginIn Successfull',
-    data: others,
+    data: result,
   });
 });
 const refreshToken = catchAsync(async (req: Request, res: Response) => {

@@ -19,3 +19,7 @@ export const FacultyFilterableFields = [
   'emergencyContactNo',
 ];
 export const EVENT_CREATED_FACULTY = 'created.faculty';
+export const EVENT_UPDATED_FACULTY = 'update.faculty';
+export const EVENT_GET_ALL_FACULTY = 'faculty-get.facultys';
+export const EVENT_GET_SINGLE_FACULTY = 'faculty-get.signlefaculty';
+export const EVENT_DELETE_FACULTY = 'faculty.deleted';

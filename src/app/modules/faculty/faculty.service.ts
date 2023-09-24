@@ -3,8 +3,15 @@ import mongoose, { SortOrder } from 'mongoose';
 import ApiError from '../../../errors/ApiError';
 import { IPoption, paginationHelper } from '../../../helpars/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
+import { RedisClinet } from '../../../shared/redis';
 import { User } from '../users/user.model';
-import { FacultySearchableFields } from './faculty.constant';
+import {
+  EVENT_DELETE_FACULTY,
+  EVENT_GET_ALL_FACULTY,
+  EVENT_GET_SINGLE_FACULTY,
+  EVENT_UPDATED_FACULTY,
+  FacultySearchableFields,
+} from './faculty.constant';
 import { IFaculty, IFacultyFilters } from './faculty.interface';
 import { Faculty } from './faculty.modal';
 
@@ -47,6 +54,9 @@ const getAllFaculty = async (
     .skip(skip)
     .limit(limit);
   const total = await Faculty.countDocuments(whereConditions);
+  if (result) {
+    await RedisClinet.publish(EVENT_GET_ALL_FACULTY, JSON.stringify(result));
+  }
   return {
     meta: {
       page,
@@ -60,6 +70,9 @@ const getSingleFaculty = async (id: string): Promise<IFaculty | null> => {
   const result = await Faculty.findById(id)
     .populate('academicDepartment')
     .populate('academicFaculty');
+  if (result) {
+    await RedisClinet.publish(EVENT_GET_SINGLE_FACULTY, JSON.stringify(result));
+  }
   return result;
 };
 
@@ -94,7 +107,12 @@ const updateFaculty = async (
   }
   const result = await Faculty.findOneAndUpdate({ id }, updatedFacultyData, {
     new: true,
-  });
+  })
+    .populate('academicDepartment')
+    .populate('academicFaculty');
+  if (result) {
+    await RedisClinet.publish(EVENT_UPDATED_FACULTY, JSON.stringify(result));
+  }
   return result;
 };
 
@@ -119,7 +137,9 @@ const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
     await User.deleteOne({ id });
     session.commitTransaction();
     session.endSession();
-
+    if (faculty) {
+      await RedisClinet.publish(EVENT_DELETE_FACULTY, JSON.stringify(faculty));
+    }
     return faculty;
   } catch (error) {
     session.abortTransaction();
