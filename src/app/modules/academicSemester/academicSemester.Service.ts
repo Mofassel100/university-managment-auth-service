@@ -172,7 +172,7 @@ const GetSingleOneIntoDBEvents = async (
 const GetAllOneIntoDBEvents = async (
   e: Partial<IAcademicSemesterCreateEvents>
 ): Promise<void> => {
-  await AcademicSemester.findOne({
+  await AcademicSemester.find({
     syncId: e.id,
   });
 };
