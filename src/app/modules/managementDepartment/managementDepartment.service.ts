@@ -52,7 +52,7 @@ const getAllManagementDepartments = async (
   const whereCondition =
     andConditions.length > 0 ? { $and: andConditions } : {};
   const result = await ManagementDepartment.find(whereCondition)
-    .populate('academicFaculty')
+    // .populate('academicFaculty')
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);

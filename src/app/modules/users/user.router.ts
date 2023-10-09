@@ -10,14 +10,15 @@ import { UserValidation } from './user.validation';
 const router = express.Router();
 router.post(
   '/create-faculty',
-  validateRequest(UserValidation.createFacultyZodSchema),
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  validateRequest(UserValidation.createFacultyZodSchema),
+
   UserController.createFaculty
 );
 router.post(
   '/create-student',
-  validateRequest(UserValidation.createStudentZodSchema),
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  // validateRequest(UserValidation.createStudentZodSchema),
   UserController.createStudent
 );
 router.post(
@@ -30,4 +31,4 @@ router.post(
 //   validateRequest(UserValidation.createUserZodSchema),
 //   UserController.createStudent
 // );
-export const UserRouter = router;
+export const UserRouters = router;
